@@ -100,6 +100,7 @@ class ContinuousBatchingLogitsProcessorList:
         self.tensors_required = 0
         self.supported_keys = {}
         self.ignored_keys = set()
+        self.do_processing = False
 
     def _convert_to_per_request_processors(self) -> None:
         """Replaces the compatible logits processors with their per-request versions."""
