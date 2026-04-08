@@ -89,6 +89,8 @@ class ContinuousBatchingLogitsProcessorList:
         # Validate and optionally filter processors based on their CB support
         self._validate_processors(drop_unsupported_processors)
         self._retrieve_processors_kwargs()
+        # Static boolean to know if there is any processing to do
+        self.do_processing = len(self.logits_processor) > 0
 
     def __repr__(self) -> str:
         return f"ContinuousBatchingLogitsProcessorList(logits_processor={self.logits_processor}, tensors_required={self.tensors_required})"
@@ -134,9 +136,6 @@ class ContinuousBatchingLogitsProcessorList:
 
         # Update the list of logits processors (preserve LogitsProcessorList type)
         self.logits_processor = LogitsProcessorList(filtered_processors)
-
-    def __bool__(self) -> bool:
-        return bool(self.logits_processor)
 
     def _retrieve_processors_kwargs(self) -> None:
         """Retrieves the supported (with types) and ignored kwargs from continuous batching processors."""
